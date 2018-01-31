@@ -1,0 +1,340 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{bm}
+
+\newcommand{\semester}{Spring 2018}
+\newcommand{\assignmentId}{0}
+\newcommand{\releaseDate}{10 January, 2018}
+\newcommand{\dueDate}{19 January, 2018}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId\ Solutions\\\\Yulong Liang (u1143816)}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+
+\section*{Basic Knowledge}
+\label{sec:q1}
+
+\begin{enumerate}
+\item~[5 points] 
+\textbf{Answer:}
+\[
+p(A) = 1 - (\frac{1}{2})^{10} = \frac{1023}{1024}
+\]
+
+\item~[5 points]
+\textbf{Answer:}\\
+According to the Venn Diagram,
+\[
+p(A \cup B) = p(A) + p(B) - p(A \cap B) \le p(A) + p(B)
+\]
+Only when $p(A \cap B)$ = 0, i.e., event $A$ and event $B$ are disjoint (never happen at the same time), the equality holds.
+
+\item~[10 points]
+\textbf{Answer:}\\
+According to the proof above,
+\begin{align}
+p(\cup_{i=1}^n A_i) &= p(\cup_{i=1}^{n-1} A_i \cup A_n)\\
+&\le p(\cup_{i=1}^{n-1} A_i) + p(A_n)\\
+&\le p(\cup_{i=1}^{n-2} A_i) + p(A_{n-1}) + p(A_n)\\
+&\le p(\cup_{i=1}^{n-k} A_i) + p(A_{n-k+1}) + \ldots + p(A_n)\\
+&\le p(A_1) + p(A_2) + \ldots + p(A_n)\\
+&= \sum_{i=1}^n p(A_i)
+\end{align}
+Only when all the events $A_1, A_n$ are disjoint (never happen at the same time), the equality holds.
+
+\item~[5 points] 
+\textbf{Answer:}\\
+According to the axiom of conditional probability,
+\setcounter{equation}{0}
+\begin{align}
+p(A\cap B\cap C) &= p[A\cap (B\cap C)]\\
+&= p(A|B\cap C) p(B\cap C)\\
+&= p(A|B\cap C) p(B|C) p(C)
+\end{align}
+
+\item~[20 points]
+        \begin{enumerate}
+            \item~[10 points] 
+            \begin{enumerate}
+            \item
+            \textbf{Answer:}
+            \begin{table}[h]
+            \centering
+            \begin{tabular}{ccc}
+            \hline\hline
+            $X$ & $0$ & $1$ \\ \hline
+            $p(X)$ & $3/10$ & $7/10$ \\ \hline\hline
+            \end{tabular}
+            \hspace{10pt}
+            \begin{tabular}{ccc}
+            \hline\hline
+            $Y$ & $0$ & $1$ \\ \hline
+            $p(Y)$ & $4/10$ & $6/10$ \\ \hline\hline
+            \end{tabular}
+            \end{table}    
+            \item
+            \textbf{Answer:}
+            \begin{table}[h]
+            \centering
+            \begin{tabular}{ccc}
+            \hline\hline
+            $X$ & $0$ & $1$ \\ \hline
+            $p(X|Y=0)$ & $1/4$ & $3/4$ \\ \hline
+            $p(X|Y=1)$ & $1/3$ & $2/3$ \\ \hline\hline
+            \end{tabular}
+            \hspace{10pt}
+            \begin{tabular}{ccc}
+            \hline\hline
+            $Y$ & $0$ & $1$ \\ \hline
+            $p(Y|X=0)$ & $1/3$ & $2/3$ \\ \hline
+            $p(Y|X=1)$ & $3/7$ & $4/7$ \\ \hline\hline
+            \end{tabular}
+            \end{table}
+            \item
+            \textbf{Answer:}
+            \[
+            \EE(X) = 1 \cdot p(X=1) + 0 \cdot p(X=0) = 0.7
+            \]
+            \[
+            \EE(Y) = 1 \cdot p(Y=1) + 0 \cdot p(Y=0) = 0.6
+            \]
+            \[
+            \VV(X) = \EE(X^2) - \EE(X)^2 = 0.7 - 0.7^2 = 0.21
+            \]
+            \[
+            \VV(Y) = \EE(Y^2) - \EE(Y)^2 = 0.6 - 0.6^2 = 0.24
+            \]            
+            \item
+            \textbf{Answer:}
+            \[
+            \EE(Y|X=0) = 1 \cdot p(Y=1|X=0) + 0 \cdot p(Y=0|X=0) = \frac{2}{3}
+            \]
+            \[
+            \EE(Y|X=1) = 1 \cdot p(Y=1|X=1) + 0 \cdot p(Y=0|X=1) = \frac{4}{7}
+            \]
+            \[
+            \VV(Y|X=0) = \frac{2}{3}(1-\frac{2}{3})^2 + \frac{1}{3}(0 - \frac{2}{3})^2 = \frac{2}{9}
+            \]
+            \[
+            \VV(Y|X=1) = \frac{4}{7}(1-\frac{4}{7})^2 + \frac{3}{7}(0 - \frac{4}{7})^2 = \frac{12}{49}
+            \]    
+            \item
+            \textbf{Answer:}
+            \[
+            Cov(X, Y) = \EE(XY) - \EE(X)\EE(Y) = 0.4 - 0.7 \times 0.6 = -0.02
+            \]
+            \end{enumerate}
+            \item~[5 points]
+            \textbf{Answer:}
+            \setcounter{equation}{0}
+            \begin{gather}
+            p(X\cap Y) = 0.4\\
+            p(X) \cdot p(Y) = 0.7 \times 0.6 = 0.42\\
+            p(X\cap Y) \neq p(X) \cdot p(Y)
+            \end{gather}
+            Thus, event X and event Y are not independent.
+            \item~[5 points] 
+            \textbf{Answer:}
+            \[
+            \EE(Y|X) = 
+            \begin{cases}
+            \cfrac{2}{3}\ ,\ if\ X=0\\
+            \cfrac{4}{7}\ ,\ if\ X=1
+            \end{cases}
+            \]
+            \[
+            \EE(X|Y) = 
+            \begin{cases}
+            0.4\quad,\: if\: Y=0\\
+            0.75\quad,\: if\: Y=1
+            \end{cases}
+            \]
+            Thus, they are not constant.
+        \end{enumerate}
+        
+\item~[10 points] 
+\textbf{Answer:}\\
+According to lognormal distribution,
+\begin{enumerate}
+\item $\EE(Y)$
+\[
+\EE(Y) = exp(\mu + \frac{\sigma^2}{2}) = \sqrt{e}
+\]
+\item $\VV(Y)$
+\[
+\VV(Y) = exp(2\mu + \sigma^2) \cdot (exp(\sigma^2) - 1) = e \cdot (e - 1) = e^2 - e
+\]
+\end{enumerate}
+
+\item~[10 points]
+\textbf{Answer:}
+\begin{enumerate}
+\item $\EE(\EE(Y|X)) = \EE(Y)$
+\setcounter{equation}{0}
+\begin{align}
+\EE(\EE(Y|X)) &= \int_{-\infty}^\infty\EE(Y|X=x)f_X(x)dx\\
+&= \int_{-\infty}^\infty\int_{-\infty}^\infty yf_{Y|X}(y|x)f_X(x)dydx\\
+&= \int_{-\infty}^\infty\int_{-\infty}^\infty y\frac{f_{X, Y}(x, y)}{f_X(x)}f_X(x)dydx\\
+&= \int_{-\infty}^\infty\int_{-\infty}^\infty yf_{X, Y}(x, y)dydx\\
+&= \int_{-\infty}^\infty yf_Y(y)dy\\
+&= \EE(Y)
+\end{align}
+\item $\VV(Y) = \EE(\VV(Y|X)) + \VV(\EE(Y|X))$
+\setcounter{equation}{0}
+\begin{align}
+&\EE(\VV(Y|X)) + \VV(\EE(Y|X))\\
+=& \EE[\EE(Y^2|X) - \EE(Y|X)^2)] + \EE[\EE(Y|X)^2] - \EE[\EE(Y|X)]^2\\
+=& \EE[\EE(Y^2|X)] - \EE[\EE(Y|X)^2] + \EE[\EE(Y|X)^2] - \EE[\EE(Y|X)]^2\\
+=& \EE(Y^2) - \EE[\EE(Y|X)^2] + \EE[\EE(Y|X)^2] - \EE(Y)^2\\
+=& \EE(Y^2) - \EE(Y)^2\\
+=& \VV(Y)
+\end{align}
+\end{enumerate}
+
+\item~[20 points]
+\textbf{Answer:}\\
+According to the context, the total number of heads c(n) is binomial distrubuted with number of trials equal to n and probability equal to 0.3, i.e., $c(n) \sim B(n, 0.3)$.
+\begin{enumerate}
+\item $\EE(c(1))$, $\VV(c(1))$
+\[
+\EE(c(1)) = n \cdot p = 1 \cdot 0.3 = 0.3
+\]
+\[
+\VV(c(1)) = n \cdot p \cdot (1 - p) = 1 \cdot 0.3 \cdot (1 - 0.3) = 0.21
+\]
+\item $\EE(c(10))$, $\VV(c(10))$
+\[
+\EE(c(10)) = n \cdot p = 10 \cdot 0.3 = 3
+\]
+\[
+\VV(c(1)) = n \cdot p \cdot (1 - p) = 10 \cdot 0.3 \cdot (1 - 0.3) = 2.1
+\]
+\item $\EE(c(n))$, $\VV(c(n))$
+\[
+\EE(c(n)) = n \cdot p = 0.3n
+\]
+\[
+\VV(c(n)) = n \cdot p \cdot (1 - p) = 0.21n
+\]
+\end{enumerate} 
+The expectation and variance of binomial distribution are propotional to the number of trials, namely $\mu = n \cdot p$, $\sigma^2 = n \cdot p \cdot (1-p)$
+
+\item~[10 points]
+\textbf{Answer:}
+\begin{enumerate}
+\item $\nabla f(\x)$
+\[
+\nabla f(x)
+=
+\begin{bmatrix}
+\cfrac{\partial f(x)}{\partial x_1} \\
+\cfrac{\partial f(x)}{\partial x_2} \\
+\vdots\\
+\cfrac{\partial f(x)}{\partial x_n} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cfrac{e^{-\bm{a} \bm{x}} \cdot a_1}{(1 + e^{-\bm{a} \bm{x}})^2} \\
+\cfrac{e^{-\bm{a} \bm{x}} \cdot a_2}{(1 + e^{-\bm{a} \bm{x}})^2} \\
+\vdots\\
+\cfrac{e^{-\bm{a} \bm{x}} \cdot a_n}{(1 + e^{-\bm{a} \bm{x}})^2} \\
+\end{bmatrix}
+\]
+\item $\nabla^2 f(\x)$
+\setcounter{equation}{0}
+\begin{align}
+\nabla^2 f(x)
+&=
+\begin{bmatrix}
+\cfrac{\partial^2 f(x)}{\partial x_1^2} & \cfrac{\partial^2 f(x)}{\partial x_1\partial x_2} & \cdots & \cfrac{\partial^2 f(x)}{\partial x_1\partial x_n}\\
+\cfrac{\partial^2 f(x)}{\partial x_2\partial x_1} & \cfrac{\partial^2 f(x)}{\partial x_2^2} & \cdots & \cfrac{\partial^2 f(x)}{\partial x_2\partial x_n} \\
+\vdots & \vdots & \ddots & \vdots\\
+\cfrac{\partial^2 f(x)}{\partial x_n \partial x_1} & \cfrac{\partial^2 f(x)}{\partial x_n \partial x_2} & \cdots & \cfrac{\partial^2 f(x)}{\partial x_n^2}\\
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+\cfrac{a_1a_1e^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} & \cfrac{a_1a_2e^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} & \cdots & \cfrac{a_1a_ne^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} \\
+\cfrac{a_2a_1e^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} & \cfrac{a_2a_2e^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} & \cdots & \cfrac{a_2a_ne^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} \\
+\vdots & \vdots & \ddots & \vdots\\
+\cfrac{a_na_1e^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} & \cfrac{a_na_2e^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} & \cdots & \cfrac{a_na_ne^{-\bm{a}\bm{x}}(e^{-\bm{a}\bm{x}}-1)}{(1+e^{-\bm{a}\bm{x}})^3} \\
+\end{bmatrix}
+\end{align}
+\item $\nabla f(\x)$ when $\a = [1,1,1,1,1]^\top$ and $\x = [0,0,0,0,0]^\top$
+\[
+\nabla f(x)
+=
+\begin{bmatrix}
+\cfrac{e^0 \cdot 1}{(1 + e^0)^2} \\
+\cfrac{e^0 \cdot 1}{(1 + e^0)^2} \\
+\cfrac{e^0 \cdot 1}{(1 + e^0)^2} \\
+\cfrac{e^0 \cdot 1}{(1 + e^0)^2} \\
+\cfrac{e^0 \cdot 1}{(1 + e^0)^2} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1/4 \\
+1/4 \\
+1/4 \\
+1/4 \\
+1/4 \\
+\end{bmatrix}
+\]
+\item $\nabla^2 f(\x)$  when $\a = [1,1,1,1,1]^\top$ and $\x = [0,0,0,0,0]^\top$
+\setcounter{equation}{0}
+\begin{align}
+\nabla^2 f(x)
+&=
+\begin{bmatrix}
+\cfrac{a_1a_1e^0(e^0-1)}{(1+e^0)^3} & \cfrac{a_1a_2e^0(e^0-1)}{(1+e^0)^3} & \cdots & \cfrac{a_1a_5e^0(e^0-1)}{(1+e^0)^3}\\
+\cfrac{a_2a_1e^0(e^0-1)}{(1+e^0)^3} & \cfrac{a_2a_2e^0(e^0-1)}{(1+e^0)^3} & \cdots & \cfrac{a_2a_5e^0(e^0-1)}{(1+e^0)^3}\\
+\cfrac{a_3a_1e^0(e^0-1)}{(1+e^0)^3} & \cfrac{a_3a_2e^0(e^0-1)}{(1+e^0)^3} & \cdots & \cfrac{a_3a_5e^0(e^0-1)}{(1+e^0)^3}\\
+\cfrac{a_4a_1e^0(e^0-1)}{(1+e^0)^3} & \cfrac{a_4a_2e^0(e^0-1)}{(1+e^0)^3} & \cdots & \cfrac{a_4a_5e^0(e^0-1)}{(1+e^0)^3}\\
+\cfrac{a_5a_1e^0(e^0-1)}{(1+e^0)^3} & \cfrac{a_5a_2e^0(e^0-1)}{(1+e^0)^3} & \cdots & \cfrac{a_5a_5e^0(e^0-1)}{(1+e^0)^3}\\
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 \\
+\end{bmatrix}
+\end{align}
+\end{enumerate}
+
+\item~[5 points]
+\textbf{Answer:}\\
+Let $f(x)=e^x-(1+x)$, then $f'(x)=e^x-1$, $f''(x)=e^x$. Since $f''(x)=e^x > 0$, $f'(x)$ increase for all $x \in \mathbb{R}$. When $x=0$, $f'(x)=e^0-1=0$. Hence,
+\[
+\begin{cases}
+f'(x)<0 \ ,x \in (-\infty, 0)\\
+f'(x)=0 \ ,x = 0\\
+f'(x)>0 \ ,x \in (0, +\infty)\\
+\end{cases}
+\]
+From the statement above, $f(x)$ is a convex function which reaches its local minimum at $x=0$, $f_{min}(x)=f(0)=e^0-(1+0)=0$. Thus, $f(x)=e^x-(1+x) \ge 0$, i.e., $1+x \le e^x$.\\\\
+Let $g(x)=e^{-x}-(1-x)$, then $g'(x)=-e^{-x}+1$, $g''(x)=e^{-x}$. Since $g''(x)=e^{-x} > 0$, $g'(x)$ increase for all $x \in \mathbb{R}$. When $x=0$, $g'(x)=-e^0-1=0$. Hence,
+\[
+\begin{cases}
+g'(x)<0 \ ,x \in (-\infty, 0)\\
+g'(x)=0 \ ,x = 0\\
+g'(x)>0 \ ,x \in (0, +\infty)\\
+\end{cases}
+\]
+From the statement above, $g(x)$ is a convex function which reaches its local minimum at $x=0$, $g_{min}(x)=g(0)=e^0-(1-0)=0$. Thus, $g(x)=e^{-x}-(1-x) \ge 0$, i.e., $1-x \le e^{-x}$.
+\end{enumerate}
+
+\end{document}
