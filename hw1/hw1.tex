@@ -1,0 +1,116 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+
+\newcommand{\semester}{Spring 2018}
+\newcommand{\assignmentId}{1}
+\newcommand{\releaseDate}{24 January, 2018}
+\newcommand{\dueDate}{9 Feburary, 2018}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+\input{general-instructions}
+
+
+\section{Hypothesis Space}
+\label{sec:q1}
+ Suppose in our supervised learning task, we have $4$ boolean features, $x_1$, $x_2$, $x_3$ and $x_4$; the label $y$ is binary. We have collected a set of training data, listed as follows. 
+\begin{table}[h]
+        \centering
+        \begin{tabular}{cccc|c}
+        $x_1$ & $x_2$ & $x_3$ & $x_4$ & $y$\\ 
+        \hline\hline
+         0 & 0 & 1 & 0 & 0 \\ \hline
+         0 & 1 & 0 & 0 & 0 \\ \hline
+         0 & 0 & 1 & 1 & 1 \\ \hline
+         1 & 0 & 0 & 1 & 1 \\ \hline
+         0 & 1 & 1 & 0.& 0\\ \hline
+         1 & 1 & 0 & 0 & 0\\ \hline
+         0 & 1 & 0 & 1 & 0\\ \hline
+        \end{tabular}
+        %\caption{Training data for the alien invasion problem.}\label{tb-alien-train}
+\end{table}
+To learn a boolean function from the training data, we try several hypothesis spaces. 
+
+\begin{enumerate}
+\item~[30 points] Conjunctions: each function is a conjunction of a set of variables or their negations. For example, one conjunction function could be $x_1 \wedge  x_2 \wedge \neg x_4$. You can choose any set of variables (out of $\{x_1, x_2, x_3, x_4\}$) to create a conjunction function. An empty set of variables is allowed as well. 
+\begin{enumerate}
+	\item~[10 points] List all the functions in conjunction space. 
+	\item~[10 points] List all the functions in conjunction space that are consistent with the training data. 
+	\item~[5 points] If there are $n$ binary features, rather than $4$, what is the size of the conjunction  space? 
+	\item~[5 points] If there are $n$ binary features, rather than $4$, what is the size of full hypothesis space that comprise of all  boolean functions with $n$ binary variables? 
+\end{enumerate}
+
+\cmt{
+\item Disjunctions: each function is a disjunction of a set of variables or their negations. For example, one disjunction function could be $x_1 \lor  x_2 \lor \neg x_3$. You can choose any set of variables (out of $\{x_1, x_2, x_3, x_4\}$) to create a disjucntion function. Empty set of variables is allowed as well. 
+\begin{enumerate}
+	\item If there are $n$ binary features, rather than $4$, what is the size of the disjunction  space? 
+	\item Compared with the conjunction space, is disjunction space more flexible/expressive? Why?
+	\item Do the two hypothesis spaces overlap? If so, please list the functions in the overlap (only for the case of  $4$ input variables). 
+\end{enumerate}
+}
+\item~[30 points] m-of-n rules: an m-of-n function has $n$ binary variables; the function value is $1$ if at least $m$ of these variables are $1$. 
+\begin{enumerate}
+	\item~[10 points] List all the functions in m-of-n rule space. 
+	\item~[10 points] List all the functions in m-of-n rule space that are consistent with the training data. 
+	\item~[5 points] If there are $n$ binary features, rather than $4$, what is the size of the m-of-n rule space? 
+	\item~[5 points] Compared with the conjunction space, is m-of-n rule space more expressive/flexible? Why?
+\end{enumerate}
+\end{enumerate}
+
+
+\section{Decision Tree}
+
+\begin{enumerate}
+\item~[20 points] Decision tree construction. 
+\begin{enumerate}
+\item~[10 points] Use the ID3 algorithm with information gain to learn a decision tree from the training dataset in Section 1. Please list every step in your tree construction, including the data subsets, the attributes, and how you calculate the information gain of each attribute and how you split the dataset according to the selected attribute. Please also give a full structure of the tree. You can manually  draw the tree structure,  convert the picture into a PDF/EPS/PNG/JPG format and include it in your homework submission; or instead, you can  represent the tree with a conjunction of prediction rules as we discussed in the lecture. 
+\item~[5 points] Write the boolean function which your decision represent. Please use a table to describe the function --- the columns are the input variables and label, \ie $x_1$, $x_2$, $x_3$, $x_4$ and $y$; the rows are different input values and the function values. 
+\item~[5 points] As we discussed in Lecture 2 (Supervised Learning: The Setup),  when we use the full hypothesis space, it is hard to  identify a function in the full space based on  a relatively small training dataset. The dataset in Section 1 is an illustrative  example: we showed that using the full hypothesis space, we are unable to find out even one function.  We have known that the decision tree hypothesis space is as large as the full boolean function space. But now, we are able to use the ID3 algorithm to learn a decision tree, which corresponds to a specific boolean function. Can you explain why? Which steps of the ID3 algorithm enable us to identify a function from such a large hypothesis space?  
+\end{enumerate}
+\item~[20 points] Let us review the geometric object classification task mentioned in our class. Please use the dataset shown in the lecture slides --- page 16 on Lecture 3: ``Decision Tree: Representation''. 
+\begin{enumerate}
+\item~[10 points] Use the ID3 algorithm with information gain to learn a decision tree from the training dataset. Note that we only have two attributes in total (color and shape). As in the above problem, please list every step in your tree construction, and the whole tree structure as well. 
+\item~[2 points] What is prediction for a new instance ``Green Triangle''? 
+\item~[8 points] Why can your tree predict the instance? Why can't the example tree predict the instance (see Page 25)?
+\end{enumerate}
+\item~[20 points] Let us use the training dataset for making a decision whether to play tennis or not (Page 41, Lecture 4: Learning Decision Trees). Suppose now, we add one more training instance where Outlook's value is missing: \{Outlook: Missing, Temperature: Mild, Humidity: Normal, Wind: Weak, Play: Yes\}  
+\begin{enumerate}
+\item~[5 points] Use the most common value in the training data as missing  value, and calculate the information gains of the four features. 
+\item~[5 points] Use the most common value among the  training instances with the same label, namely, their attribute "Play" is "Yes", and calculate the information gains of the four features. 
+\item~[10 points] Use the fractional counts as the feature values, and then calculate the information gains of the four features. 
+
+\end{enumerate}
+\item ~[\textbf{For 6350 students}]~[30 points] Please prove that information gain is always non-negative (Hint: use convexity).  
+
+\end{enumerate}
+
+\section{Programming Assignments}
+[100 points] We will implement a decision tree learning algorithm for car evaluation task. The dataset is from UCI repository(\url{https://archive.ics.uci.edu/ml/datasets/car+evaluation}). Please download the processed dataset from Canvas.  In this task, we have $6$ car attributes, and the label is the evaluation of the car. The attribute and label values are listed in the file ``data-desc.txt". The training data are stored in the file ``train.csv'', consisting of $1000$ examples. The test data are stored in ``test.csv'', and comprise of $728$ examples. In both training and testing datasets, attribute values are separated by commas; the file ``data-desc.txt''  lists the attribute names in each column. 
+\begin{enumerate}
+\item~[50 points] Implement the ID3 algorithm which supports both the majority error and information gain to select attributes for data splits. Besides, your ID3 should allow users to set the maximum tree depth. 
+\item~[30 points] Use your implemented algorithm to learn decision trees from the training data. Vary the maximum  tree depth from $1$ to $7$ --- for each setting, run your algorithm to learn a decision tree, and use the tree to  predict both the training  and testing examples. Report in a table the average prediction errors on each dataset when you use information gain and majority error heuristics, respectively.
+
+\item~[20 points] What can you conclude by comparing the training errors and the testing errors? 
+\end{enumerate}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
