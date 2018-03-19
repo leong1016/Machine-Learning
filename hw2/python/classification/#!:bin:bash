@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pushd classification
+python averagedperceptron.py ; python perceptron.py ; python votedperceptron.py
+popd

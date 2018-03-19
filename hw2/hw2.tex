@@ -1,0 +1,168 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+
+\newcommand{\semester}{Spring 2018}
+\newcommand{\assignmentId}{2}
+\newcommand{\releaseDate}{19 January, 2018}
+\newcommand{\dueDate}{5 March, 2018}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+\input{general-instructions}
+
+
+\section{Expressiveness of Linear Classifiers}
+\begin{enumerate}
+\item~[60 points] Can you figure out an equivalent linear classifier for the following boolean functions? Please point out what the weight vector is, what the bias parameter is, and what the hyperplane is. Note that the hyperplane is determined by an equality. If you cannot find out such a  linear classifier, please explain why. 
+\begin{enumerate}
+\item $f(x_1, x_2, x_3) = x_1 \lor x_2 \lor x_3$
+\item $f(x_1, x_2, x_3) = x_1 \land \neg x_2 \land \neg x_3$
+\item $f(x_1, x_2, x_3) = \neg x_1 \lor \neg x_2 \lor \neg x_3$ 
+\item $f(x_1, x_2, \ldots, x_n) = x_1 \lor x_2 \ldots \lor x_k$ (note that  $k <n$). 
+\item $f(x_1, x_2, x_3, x_4) = (x_1 \lor x_2) \land (x_3 \lor x_4)$
+\item $f(x_1, x_2, x_3, x_4) = (x_1 \land x_2) \lor (x_3 \land x_4)$
+\end{enumerate}
+
+\item~[50 points] Can you draw  equivalent decision trees for the following boolean functions? Note that you do NOT need to run the ID3 algorithm to learn such a tree. You only need to brainstorm and draw one. If you cannot, please explain why. 
+\begin{enumerate}
+\item $f(x_1, x_2, x_3) = x_1 \lor x_2 \lor x_3$
+\item $f(x_1, x_2, x_3) = x_1 \land \neg x_2 \land \neg x_3$
+\item $f(x_1, x_2, x_3) = \neg x_1 \lor \neg x_2 \lor \neg x_3$ 
+\item $f(x_1, x_2, x_3, x_4) = (x_1 \lor x_2) \land (x_3 \lor x_4)$
+\item $f(x_1, x_2, x_3, x_4) = (x_1 \land x_2) \lor (x_3 \land x_4)$
+\end{enumerate}
+
+\item~[10 points] What do you conclude about the expressiveness of decision trees and linear classifiers from Problem 1 and 2? Why? 
+
+
+\item~[30 points] The following boolean functions cannot be represented by linear classifiers. Can you work out some feature mapping such that, after mapping all the inputs of these functions into a higher dimensional space, you can easily identify a hyperplane that separates the inputs with different corresponding boolean function values? Please write down the separating hyperplane as well. 
+\begin{enumerate}
+\item $f(x_1, x_2) = (x_1 \land \neg x_2) \lor (\neg x_1 \land x_2) $
+\item $f(x_1, x_2) = (x_1 \land x_2) \lor (\neg x_1 \land \neg x_2)$
+\item $f(x_1, x_2, x_3)$ is listed in the following table
+\begin{table}[h]
+        \centering
+        \begin{tabular}{ccc|c}
+        $x_1$ & $x_2$ & $x_3$ &  $f(x_1, x_2, x_3)$\\ 
+        \hline\hline
+         0 & 0 & 0 & 0 \\ \hline
+         0 & 0 & 1 & 1 \\ \hline
+         0 & 1 & 0 & 1 \\ \hline
+         1 & 0 & 0 & 1 \\ \hline
+         0 & 1 & 1 & 0\\ \hline
+         1 & 1 & 0 & 0\\ \hline
+         1 & 0 & 1 & 0\\ \hline
+         1 & 1 & 1 & 1\\ \hline
+        \end{tabular}
+\end{table}
+\end{enumerate}
+
+\item~[40 points] ~[\textbf{For 6350 students}] Given two vectors $\x = [x_1,  x_2]$ and $\y=[y_1,  y_2]$, find a feature mapping $\phi(\cdot)$ for each of the following functions, such that the function is equal to the inner product between the mapped feature vectors, $\phi(\x)$ and $\phi(\y)$. For example, $(\x^\top \y)^0 = \phi(\x)^\top \phi(\y)$ where $\phi(\x) = [1]$ and $\phi(\y) = [1]$; $(\x^\top \y)^1 = \phi(\x)^\top \phi(\y)$ where $\phi(\x) = \x$ and $\phi(\y) = \y$. 
+\begin{enumerate}
+\item~[10 points] $(\x^\top \y)^2$
+\item~[10 points] $(\x^\top \y)^3$
+\item~[20 points] $(\x^\top \y)^k$ where $k$ is  any positive integer.  
+\end{enumerate}
+\end{enumerate}
+
+\section{Linear Regression}
+Suppose we have the training data shown in Table \ref{tb:1}, from which we want to learn a linear regression model, parameterized by a weight vector $\w$ and a bias parameter $b$.  
+\begin{table}
+        \centering
+        \begin{tabular}{ccc|c}
+        $x_1 $ & $x_2$ & $x_3$ &  $y$\\ 
+        \hline\hline
+         1 & -1 & 2 & 1 \\ \hline
+         1 & 1 & 3 & 4 \\ \hline
+         -1 & 1 & 0 & -1 \\ \hline
+         1 & 2 & -4 & -2 \\ \hline
+         3 & -1 & -1 & 0\\ \hline
+         \end{tabular}
+         \caption{Linear regression training data.}\label{tb:1}
+\end{table}
+
+\begin{enumerate}
+\item~[10 points] Write down the LMS (least mean square) cost function $J(\w, b)$. 
+\item~[30 points] Calculate the gradient $\frac{\nabla J}{\nabla \w}$ and $\frac{\nabla J}{\nabla b}$ 
+\begin{enumerate}
+\item when $\w = [0,0,0]^\top$ and $b = 0$;
+\item when $\w = [-1,1,-1]^\top$ and $b = -1$;
+\item when $\w = [1/2,-1/2,1/2]^\top$ and $b = 1$.
+\end{enumerate}
+\item~[20 points] What are the optimal $\w$ and $\b$ that minimize the cost function? 
+\item~[50 points] Now, we want to use stochastic gradient descent to minimize $J(\w, b)$, we initialize $\w = \0$ and $b = 0$. We set the learning rate $r = 0.1$ and sequentially go through the $5$ training examples. Please list the stochastic gradient in each step and the updated $\w$ and $b$.  
+\end{enumerate}
+
+\section{Mistake Driven Learning Algorithm}
+Identify the maximum number of mistakes made by Halving algorithm in learning a target function from following concept classes. Please check whether the Halving algorithm is a mistake bound algorithm.  
+\begin{enumerate}
+\item~[10 points] Disjunction of $n$ boolean variables. 
+\item~[10 points] Disjunction of $k$ boolean variables out of the total $n$ input variables. Note $k$ is a constant and smaller than $n$. 
+\item~[10 points] $m$-of-$n$ rules. Note $m$ is a constant and smaller than $n$.
+\item~[20 points] All boolean function of $n$ input boolean variables. 
+\end{enumerate}
+
+\section{Perceptron}
+\begin{enumerate}
+\item  Let us review the Mistake Bound Theorem discussed in our lecture. 
+\begin{enumerate}
+	\item~[10 points] If we change the second assumption to be as follows: Suppose there exists a vector $\u\in \mathbb{R}^n$, and a positive $\gamma$, we have for each $(\x_i, y_i)$ in the training data, $y_i(\u^\top \x_i) \ge \gamma$. What is the upper bound for the number of mistakes made by the Perceptron algorithm?   Note that $\u$ is unnecessary to be a unit vector. 
+	\item~[10 points] Following (a), if we do NOT assume $\u$ is a unit vector, and we still want to obtain the same upper bound introduced in the lecture, how should we change the inequalities in the second assumption?
+	\item~[20 points]  Now, let us state the second assumption in another way: Suppose there a hyperplane that can correctly separate all the positive examples from the negative examples in the data, and the margin for this hyper plane is $\gamma$. What is the upper bound for the number of mistakes made by Perceptron algorithm?
+\end{enumerate}
+
+\item~[20 points] We want to use Perceptron to learn a disjunction as follows,
+\[
+f(x_1, x_2, \ldots, x_n) = \neg x_1 \lor \neg \ldots \neg x_k \lor x_{k+1} \lor \ldots \lor x_{2k} \;\;\;\;(\mathrm{note\; that}\;\; 2k < n).
+\]
+Please derive an upper bound of the number of mistakes made by Perceptron in learning this disjunction. Is Perceptron a mistake bound algorithm?
+\end{enumerate}
+
+
+\section{Programming Assignments}
+
+\begin{enumerate}
+\item We will implement the LMS method for a linear regression task. The dataset is from UCI repository (\url{https://archive.ics.uci.edu/ml/datasets/Concrete+Slump+Test}). The task is to predict the real-valued SLUMP of the concrete, with $7$ features. The features and output are listed in the file ``regression/data-desc.txt''. The training data are stored in the file ``regression/train.csv'', consisting of $53$ examples. The test data are stored in ``regression/test.csv'', and comprise of $50$ examples. In both the training and testing datasets, feature values and outputs are separated by commas. 
+
+\begin{enumerate}
+\item~[90 points] Implement the batch gradient descent algorithm, and tune the learning rate $r$ to ensure the algorithm converges.  To examine convergence, you can watch the norm of the weight vector difference,  $\|w_{t} - w_{t-1}\|$,  at each step $t$.  if $\|w_{t} - w_{t-1}\|$ is  less than a tolerance level, say, $1e-6$, you can conclude that it converges. You can initialize your weight vector to be $\0$.  Please find an appropriate $r$ such that the algorithm converges. To tune $r$, you can start with a relatively big value, say, $r=1$, and then gradually decrease $r$, say $r=0.5, 0.25, 0.125, \ldots$, until you see the convergence. 
+Report the learned weight vector, and the learning rate $r$. Meanwhile, please record the cost function  value of the training data at each step, and then draw a figure shows how the cost function changes along with steps. Use your final weight vector to calculate  the cost function value of the test data. 
+%To do so, you can start $r$ to be relatively big, say, $r=1$, and then gradually decrease $r$. For a specific setting of $r$, you can calculate the cost function after each update and draw a curve showing how the cost function changes along with the number of updates. If you find the cost function on your curve tends to converge, you can conclude your algorithm convergences. 
+\item~[90 points] Implement the stochastic gradient descent (SGD) algorithm. You can initialize your weight vector to be $\0$. Each step, you randomly sample a training example, and then calculate the stochastic gradient to update the weight vector.  Tune the learning rate $r$ to ensure your SGD converges. To check convergence, you can calculate the cost function of the training data after each stochastic gradient update, and draw a figure showing how the cost function values vary along with the number of updates. At the beginning, your curve will oscillate a lot. However, with an appropriate $r$, as more and more updates are finished, you will see the cost function tends to converge. Please report the learned weight vector, and the learning rate you chose, and the cost function value of the test data with your learned weight vector.   
+\item~[20 points] We have discussed how to  calculate the optimal weight vector with an analytical form. Please calculate the optimal weight vector in this way. Comparing with the  weight vectors learned by batch gradient descent and stochastic gradient descent, what can you conclude? Why?
+\end{enumerate}
+
+
+
+\item We will implement  Perceptron for a binary classification task. The features and labels are listed in the file ``classification/data-desc.txt''. The training data are stored in the file ``classification/train.csv'', consisting of $872$ examples. The test data are stored in ``classification/test.csv'', and comprise of $500$ examples. In both the training and testing datasets, feature values and labels are separated by commas. 
+\begin{enumerate}
+\item~[60 points] Implement the standard Perceptron. Set the maximum number of epochs $T$ to 10. Report your learned weight vector, and the average prediction error on the test dataset. 
+\item~[60 points] Implement the voted Perceptron. Set the maximum number of epochs $T$ to 10. Report the list of the distinct weight vectors and their counts --- the number of correctly predicted training examples. Using this set of weight vectors to predict each test example. Report the average test error. 
+\item~[60 points] Implement the average Perceptron. Set the maximum number of epochs $T$ to 10. Report your learned weight vector. Comparing with the list of weight vectors from (b), what can you observe? Report the average prediction error on the test data. 
+\item~[20 points] Compare the average prediction errors for the three methods. What do you conclude? 
+\end{enumerate}
+
+\end{enumerate}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
