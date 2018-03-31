@@ -1,0 +1,79 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+
+\newcommand{\semester}{Spring 2018}
+\newcommand{\assignmentId}{3}
+\newcommand{\releaseDate}{26 March, 2018}
+\newcommand{\dueDate}{4 April, 2018}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+\begin{document}
+\maketitle
+
+\input{emacscomm}
+\input{general-instructions}
+
+
+\section{Simple Conjunction Learner Analysis}
+\begin{enumerate}
+\item~[50 points] We have derived the PAC guarantee for the elimination algorithm learning simple conjunctions out of $n$ input binary variables. Please use the PAC guarantee (in the lecture slides) to answer the following questions. 
+\begin{enumerate}
+\item Suppose we have n=100. If we want to ensure  with probability of at least 0.9, the generalization error of the learned hypothesis h is less than 0.1, how many training examples will we at least need? 
+\item Suppose n=100. If we want to ensure  with probability of at least 0.99, the generalization error of the learned hypothesis h is less than 0.1, how many training examples will we at least need? 
+\item Suppose n=100. If we want to ensure  with probability of at least 0.9, the generalization error of the learned hypothesis h is less than 0.01, how many training examples will we at least need? 
+\item Suppose n=100. If we want to ensure  with probability of at least 0.99, the generalization error of the learned hypothesis h is less than 0.01, how many training examples will we at least need? 
+\item Suppose n=1000. If we want to ensure  with probability of at least 0.99, the generalization error of the learned hypothesis h is less than 0.01, how many training examples will we at least need? 
+\end{enumerate}
+
+\item~[10 points] Show that for $0\le x \le 1$, 
+\[
+1 - x \le e^{-x}.
+\]
+\end{enumerate}
+
+\section{Occam's Razor and PAC guarantee for consistent learners}
+We have derived the PAC guarantee for consistent learners (namely, the learners can produce a hypothesis which can 100\% accurately classify the training data). The PAC guarantee is described as follows. Let $H$ be the hypothesis space used by our algorithm. Let $C$ be the concept class we want to apply our learning algorithm to search for a target function in $C$. We have shown that,  with probability at least $1-\delta$, a hypothesis $h\in H$ that is consistent with a training set of $m$ examples will have generalization error $\mathrm{err}_D(h) < \epsilon$ if 
+\[
+m > \frac{1}{\epsilon}\big(\log(|H|) + \log\frac{1}{\delta}\big).
+\]
+
+\begin{enumerate}
+\item~[20 points] Suppose we have two learning algorithms $L_1$ and $L_2$, which use hypothesis spaces $H_1$ and $H_2$ respectively. We know than $H_1$ is larger than $H_2$, \ie $|H_1| > |H_2|$.
+ For each target function in $C$, we assume both algorithms can find a hypothesis consist with the training data. 
+ \begin{enumerate}
+ \item According to Occam's Razor principle, which learning algorithm's  result hypothesis do you prefer? Why?
+ \item How is this principle reflected in our PAC guarantee? Please use the above inequality to explain why we will prefer the corresponding result hypothesis. 
+ \end{enumerate}
+\end{enumerate}
+
+\section{PAC Learnable Results}
+Let us check the PAC learnability for several concept classes. We assume the our learning algorithm can always result a hypothesis consistent with the training data. We assume the hypothesis space $H$ is the same as the concept class $C$. Please determine whether the following concept classes are PAC learnable or not and prove your conclusions. 
+\begin{enumerate}
+\item~[10 points] General disjunctions out of $n$ binary variables.  
+\item~[10 points] $m$-of-$n$ rules (Note that $m$ is a fixed constant).  
+\item~[10 points] Simple conjunctions out of $n$ binary variables. 
+\item~[10 points] $k$-CNF out of $n$ binary variables. 
+\item~[10 points] General boolean functions of $n$ binary variables. 
+\end{enumerate}
+
+
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
