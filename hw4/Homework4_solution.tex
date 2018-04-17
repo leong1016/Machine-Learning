@@ -1,0 +1,137 @@
+\documentclass[12pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{bm}
+
+%table position
+\usepackage{float}
+%multi columns
+\usepackage[english]{babel}
+\usepackage{multicol}
+%caption without figure number
+\usepackage{caption}
+%drawing trees
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes, backgrounds}
+%merge cells
+\usepackage{booktabs}
+\usepackage{multirow}
+%long table
+\usepackage{longtable}
+%code
+\usepackage{listings}
+
+\newcommand{\semester}{Spring 2018}
+\newcommand{\assignmentId}{3}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\by}{{\bf y}}
+\newcommand{\bw}{{\bf w}}
+\newcommand{\bu}{{\bf u}}
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId\ Solutions\\\\Yulong Liang (u1143816)}
+
+\begin{document}
+\maketitle
+
+\section{Simple Conjunction Learner Analysis}
+
+\begin{enumerate}
+\item~[50 points]
+\begin{enumerate}
+\item $n=100,\ 1-\delta=0.9,\ \epsilon=0.1$\\
+$$m>\frac{n}{\epsilon}\Big(\ln(n)+\ln(\frac{1}{\delta})\Big)=\frac{100}{0.1}\Big(\ln(100)+\ln(\frac{1}{0.1})\Big)\approx6907.8$$
+We will need at least $6,908$ examples.
+\item $n=100,\ 1-\delta=0.99,\ \epsilon=0.1$\\
+$$m>\frac{n}{\epsilon}\Big(\ln(n)+\ln(\frac{1}{\delta})\Big)=\frac{100}{0.1}\Big(\ln(100)+\ln(\frac{1}{0.01})\Big)\approx9210.3$$
+We will need at least $9,211$ examples.
+\item $n=100,\ 1-\delta=0.9,\ \epsilon=0.01$\\
+$$m>\frac{n}{\epsilon}\Big(\ln(n)+\ln(\frac{1}{\delta})\Big)=\frac{100}{0.01}\Big(\ln(100)+\ln(\frac{1}{0.1})\Big)\approx69077.6$$
+We will need at least $69,078$ examples.
+\item $n=100,\ 1-\delta=0.99,\ \epsilon=0.01$\\
+$$m>\frac{n}{\epsilon}\Big(\ln(n)+\ln(\frac{1}{\delta})\Big)=\frac{100}{0.01}\Big(\ln(100)+\ln(\frac{1}{0.01})\Big)\approx92103.4$$
+We will need at least $92,104$ examples.
+\item $n=1000,\ 1-\delta=0.99,\ \epsilon=0.01$\\
+$$m>\frac{n}{\epsilon}\Big(\ln(n)+\ln(\frac{1}{\delta})\Big)=\frac{1000}{0.01}\Big(\ln(1000)+\ln(\frac{1}{0.01})\Big)\approx1151292.5$$
+We will need at least $1,151,293$ examples.
+\end{enumerate}
+\item~[10 points] Show that for $0\le x \le 1$, 
+\[1 - x \le e^{-x}.\]
+\paragraph{Proof}Let $f(x)=e^{-x}-(1-x)=e^{-x}+x-1$.
+$$\text{The derivative } f'(x)=-e^{-x}+1$$
+$$\text{The second derivative } f''(x)=-(-e^{-x})=e^{-x}$$
+$$\therefore f''(x)=e^{-x}>0, x\in[0,1]$$
+$$\therefore f'(x) \text{ increases within } [0,1]$$
+$$f'(0)=-e^{-0}+1=-1+1=0$$
+$$\therefore f'(x)\ge0, x\in[0,1]$$
+$$\therefore f(x) \text{ increases within } [0,1]$$
+$$f(0)=e^{-0}+0-1=1-1=0$$
+$$\therefore f(x)\ge0, x\in[0,1]$$
+$$\therefore e^{-x}\ge1-x$$
+\end{enumerate}
+
+\section{Occam's Razor and PAC guarantee for consistent learners}
+
+\begin{enumerate}
+\item~[20 points] 
+\begin{enumerate}
+\item I will prefer $L_2$. According to Occam's Razor principle, we should refer simpler explanations over more complex ones. Since both algorithms can find a hypothesis consist with the training data, I will prefer $L_2$ because it has a smaller hypothesis space.
+\item According to the about inequality, the number of training examples needed $\mathbf{m}$ is proportional to the logarithm of size of hypothesis space $|H|$, logarithm of reciprocal of probability of failure $\delta$ and reciprocal of error level $\epsilon$. For a fixed probability level $1-\delta$ and a fixed error level $\epsilon$, the larger hypothesis space is, the more training examples are required.
+\end{enumerate}
+\end{enumerate}
+
+\section{PAC Learnable Results}
+
+\begin{enumerate}
+\item~[10 points] General disjunctions out of $n$ binary variables.  
+\begin{itemize}
+\item size of hypothesis space: 
+$$|H|=3^n$$
+\item number of training examples needed: 
+$$m>\cfrac{1}{\epsilon}\Big(\ln(|H|)+ln(\cfrac{1}{\delta})\Big)=\cfrac{1}{\epsilon}\Big(n\ln(3)+ln(\cfrac{1}{\delta})\Big)$$
+\end{itemize}
+The number of training examples needed $m$ is polynomial to $\cfrac{1}{\epsilon}$, $\cfrac{1}{\delta}$, $n$, and $|H|$. Thus general disjunctions out of $n$ binary variables is \textbf{PAC learnable}.
+\item~[10 points] $m$-of-$n$ rules (Note that $m$ is a fixed constant). 
+\begin{itemize}
+\item size of hypothesis space: $$|H|=m{n \choose m} \approx mn^m$$
+\item number of training examples needed: 
+$$m>\cfrac{1}{\epsilon}\Big(\ln(|H|)+ln(\cfrac{1}{\delta})\Big)=\cfrac{1}{\epsilon}\Big(\ln(m)+m\ln(n)+ln(\cfrac{1}{\delta})\Big)$$
+\end{itemize}
+The number of training examples needed $m$ is polynomial to $\cfrac{1}{\epsilon}$, $\cfrac{1}{\delta}$, $n$, and $|H|$. Thus $m$-of-$n$ rules is \textbf{PAC learnable}.
+\item~[10 points] Simple conjunctions out of $n$ binary variables. 
+\begin{itemize}
+\item size of hypothesis space: 
+$$|H|=2^n$$
+\item number of training examples needed: 
+$$m>\cfrac{1}{\epsilon}\Big(\ln(|H|)+ln(\cfrac{1}{\delta})\Big)=\cfrac{1}{\epsilon}\Big(n\ln(2)+ln(\cfrac{1}{\delta})\Big)$$
+\end{itemize}
+The number of training examples needed $m$ is polynomial to $\cfrac{1}{\epsilon}$, $\cfrac{1}{\delta}$, $n$, and $|H|$. Thus simple conjunctions out of $n$ binary variables is \textbf{PAC learnable}.
+\item~[10 points] $k$-CNF out of $n$ binary variables. 
+\begin{itemize}
+\item number of conjuncts:
+$$O((2n)^k)$$
+\item size of hypothesis space: 
+$$|H|=O(2^{(2n)^k})$$
+$$ln(|H|)=O((2n)^k\ln2)$$
+\item number of training examples needed: 
+$$m>\cfrac{1}{\epsilon}\Big(\ln(|H|)+ln(\cfrac{1}{\delta})\Big)=O\Big(\cfrac{1}{\epsilon}\Big((2n)^k\ln(2)+ln(\cfrac{1}{\delta})\Big)\Big)$$
+\end{itemize}
+The number of training examples needed $m$ is polynomial to $\cfrac{1}{\epsilon}$, $\cfrac{1}{\delta}$, $n$, and $|H|$. Thus $k$-CNF out of $n$ binary variables is \textbf{PAC learnable}.
+\item~[10 points] General boolean functions of $n$ binary variables. 
+\begin{itemize}
+\item size of hypothesis space: 
+$$|H|=2^{2^n}$$
+\item number of training examples needed: 
+$$m>\cfrac{1}{\epsilon}\Big(\ln(|H|)+ln(\cfrac{1}{\delta})\Big)=\cfrac{1}{\epsilon}\Big(2^n\ln(2)+ln(\cfrac{1}{\delta})\Big)$$
+\end{itemize}
+The number of training examples needed $m$ is exponential to $n$. Thus general boolean functions of $n$ binary variables is \textbf{NOT PAC learnable}.
+\end{enumerate}
+
+\end{document}
